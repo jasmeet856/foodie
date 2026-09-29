@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FoodieHub - Delicious Food</title>
+
+    <!-- =========================
+         INTERNAL CSS
+    ========================== -->
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fffaf5;
+            color: #2d2d2d;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        header {
+            background: #ffffff;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1100px;
+            margin: auto;
+
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #ff5722;
+        }
+
+        .logo span {
+            color: #222;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff5722;
+        }
+
+        .menu-btn {
+            display: none;
+
+            background: none;
+            border: none;
+
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            min-height: 600px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 80px 20px;
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.55),
+                    rgba(0,0,0,0.55)
+                ),
+                linear-gradient(135deg, #ff5722, #ff9800);
+        }
+
+        .hero-content {
+            max-width: 750px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #ffd54f;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .btn {
+            display: inline-block;
+
+            padding: 14px 28px;
+
+            border-radius: 30px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .primary-btn {
+            background: #ff5722;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #e64a19;
+            transform: translateY(-3px);
+        }
+
+
+        /* =========================
+           COMMON SECTION
+        ========================== */
+
+        section {
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 40px;
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #777;
+        }
+
+
+        /* =========================
+           MENU CARDS
+        ========================== */
+
+        .menu-container {
+            max-width: 1100px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 25px;
+        }
+
+        .food-card {
+            background: white;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+
+            transition: 0.3s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-8px);
+
+            box-shadow:
+                0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .food-image {
+            height: 180px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 80px;
+
+            background: #fff3e0;
+        }
+
+        .food-info {
+            padding: 25px;
+        }
+
+        .food-info h3 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .food-info p {
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            color: #ff5722;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           ABOUT
+        ========================== */
+
+        .about {
+            background: #fff3e0;
+        }
+
+        .about-container {
+            max-width: 1000px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            gap: 50px;
+
+            align-items: center;
+        }
+
+        .about-icon {
+            background: #ff5722;
+
+            min-height: 300px;
+
+            border-radius: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 120px;
+        }
+
+        .about-text h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================
+           FORM
+        ========================== */
+
+        .form-container {
+            max-width: 650px;
+            margin: auto;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 16px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+
+            border-color: #ff5722;
+
+            box-shadow:
+                0 0 0 3px rgba(255,87,34,0.1);
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-size: 16px;
+        }
+
+        #message {
+            text-align: center;
+
+            margin-top: 15px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            background: #222;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 40px 20px;
+        }
+
+        footer .logo {
+            margin-bottom: 10px;
+        }
+
+        footer p {
+            color: #aaa;
+        }
+
+
+        /* =========================
+           RESPONSIVE DESIGN
+        ========================== */
+
+        @media (max-width: 800px) {
+
+            .nav-links {
+                display: none;
+
+                position: absolute;
+
+                top: 70px;
+                left: 0;
+
+                width: 100%;
+
+                background: white;
+
+                flex-direction: column;
+
+                padding: 25px;
+
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+            }
+
+            .menu-container {
+                grid-template-columns: 1fr;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .section-title h2 {
+                font-size: 32px;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header>
+
+        <nav>
+
+            <div class="logo">
+                Foodie<span>Hub</span>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+
+                <li>
+                    <a href="#menu">Menu</a>
+                </li>
+
+                <li>
+                    <a href="#about">About</a>
+                </li>
+
+                <li>
+                    <a href="#order">Order</a>
+                </li>
+
+            </ul>
+
+            <button class="menu-btn" id="menuBtn">
+                ☰
+            </button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <h1>
+                Delicious Food,
+                <span>Happy Mood!</span>
+            </h1>
+
+            <p>
+                Fresh ingredients, amazing flavors and delicious
+                meals prepared specially for you.
+            </p>
+
+            <a href="#menu" class="btn primary-btn">
+                Explore Menu
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         MENU
+    ========================== -->
+
+    <section id="menu">
+
+        <div class="section-title">
+
+            <h2>Our Popular Menu</h2>
+
+            <p>
+                Try some of our customer favorites.
+            </p>
+
+        </div>
+
+
+        <div class="menu-container">
+
+
+            <div class="food-card">
+
+                <div class="food-image">
+                    🍕
+                </div>
+
+                <div class="food-info">
+
+                    <h3>Cheese Pizza</h3>
+
+                    <p>
+                        Fresh cheese, tomato sauce and crispy crust.
+                    </p>
+
+                    <div class="price">
+                        ₹299
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="food-card">
+
+                <div class="food-image">
+                    🍔
+                </div>
+
+                <div class="food-info">
+
+                    <h3>Classic Burger</h3>
+
+                    <p>
+                        Juicy patty with fresh vegetables and sauce.
+                    </p>
+
+                    <div class="price">
+                        ₹199
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="food-card">
+
+                <div class="food-image">
+                    🍝
+                </div>
+
+                <div class="food-info">
+
+                    <h3>Creamy Pasta</h3>
+
+                    <p>
+                        Delicious creamy pasta with herbs and cheese.
+                    </p>
+
+                    <div class="price">
+                        ₹249
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ABOUT
+    ========================== -->
+
+    <section class="about" id="about">
+
+        <div class="about-container">
+
+            <div class="about-icon">
+                🍽️
+            </div>
+
+            <div class="about-text">
+
+                <h2>
+                    Made With Love
+                </h2>
+
+                <p>
+                    At FoodieHub, we believe great food brings people
+                    together. Our chefs use fresh ingredients and
+                    carefully prepared recipes to create delicious
+                    meals.
+                </p>
+
+                <p>
+                    Whether you're having lunch with friends or
+                    enjoying dinner with family, we've got something
+                    special for everyone.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ORDER FORM
+    ========================== -->
+
+    <section id="order">
+
+        <div class="section-title">
+
+            <h2>Place Your Order</h2>
+
+            <p>
+                Fill the form and we'll get your order ready.
+            </p>
+
+        </div>
+
+
+        <div class="form-container">
+
+            <form id="orderForm">
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Your Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="food">
+                        Select Food
+                    </label>
+
+                    <select id="food" required>
+
+                        <option value="">
+                            Choose your food
+                        </option>
+
+                        <option value="Cheese Pizza">
+                            Cheese Pizza - ₹299
+                        </option>
+
+                        <option value="Classic Burger">
+                            Classic Burger - ₹199
+                        </option>
+
+                        <option value="Creamy Pasta">
+                            Creamy Pasta - ₹249
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="quantity">
+                        Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        min="1"
+                        value="1"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="address">
+                        Delivery Address
+                    </label>
+
+                    <textarea
+                        id="address"
+                        rows="4"
+                        placeholder="Enter your address"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn primary-btn submit-btn"
+                >
+                    Place Order
+                </button>
+
+
+                <p id="message"></p>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div class="logo">
+            Foodie<span>Hub</span>
+        </div>
+
+        <p>
+            Good food. Good people. Good times. ❤️
+        </p>
+
+        <p>
+            © 2026 FoodieHub
+        </p>
+
+    </footer>
+
+
+    <!-- =========================
+         INTERNAL JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        // =========================
+        // MOBILE MENU
+        // =========================
+
+        const menuBtn = document.getElementById("menuBtn");
+
+        const navLinks = document.getElementById("navLinks");
+
+
+        menuBtn.addEventListener("click", function () {
+
+            navLinks.classList.toggle("active");
+
+        });
+
+
+        // Close menu when link is clicked
+
+        const links = document.querySelectorAll(".nav-links a");
+
+        links.forEach(function(link) {
+
+            link.addEventListener("click", function() {
+
+                navLinks.classList.remove("active");
+
+            });
+
+        });
+
+
+        // =========================
+        // ORDER FORM
+        // =========================
+
+        const orderForm =
+            document.getElementById("orderForm");
+
+        const message =
+            document.getElementById("message");
+
+
+        orderForm.addEventListener("submit", function(event) {
+
+            // Stop page refresh
+            event.preventDefault();
+
+
+            // Get form values
+
+            const name =
+                document.getElementById("name").value.trim();
+
+            const food =
+                document.getElementById("food").value;
+
+            const quantity =
+                document.getElementById("quantity").value;
+
+
+            // Display success message
+
+            message.textContent =
+                "🎉 Thank you " +
+                name +
+                "! Your order for " +
+                quantity +
+                " × " +
+                food +
+                " has been received.";
+
+            message.style.color = "#2e7d32";
+
+
+            // Reset form
+
+            orderForm.reset();
+
+        });
+
+    </script>
+
+</body>
+
+</html>
